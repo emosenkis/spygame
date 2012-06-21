@@ -1,6 +1,3 @@
 class UserMission < ActiveRecord::Base
-  #add current event column
-  belongs_to :user
-  belongs_to :mission_instance
-
+  attr_accessible :current_event_id, :mission_instance_id, :user_id
 end

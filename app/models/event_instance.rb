@@ -1,5 +1,3 @@
 class EventInstance < ActiveRecord::Base
-  has_one :user, :event_template
-  belongs_to :mission_instance
-
+  attr_accessible :event_template_id, :mission_instance_id, :user_id
 end
