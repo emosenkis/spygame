@@ -11,7 +11,25 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120615144855) do
+ActiveRecord::Schema.define(:version => 20120619184418) do
+
+  create_table "events", :force => true do |t|
+    t.integer  "mission_id"
+    t.string   "title"
+    t.string   "description"
+    t.integer  "parent_event"
+    t.float    "latitude"
+    t.float    "longitude"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+  end
+
+  create_table "missions", :force => true do |t|
+    t.string   "title"
+    t.string   "description"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
 
   create_table "users", :force => true do |t|
     t.string   "name"
@@ -19,6 +37,8 @@ ActiveRecord::Schema.define(:version => 20120615144855) do
     t.datetime "created_at",      :null => false
     t.datetime "updated_at",      :null => false
     t.string   "password_digest"
+    t.float    "latitude"
+    t.float    "longitude"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
