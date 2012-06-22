@@ -5,7 +5,7 @@ describe "Static pages" do
   subject { page }
 
   after {should_not have_content 'rails'}
-  after {should_not have_content 'sample'}
+  it {should_not have_content 'sample'}
   after {should_not have_content 'Rails'}
 
   describe "Home page" do
