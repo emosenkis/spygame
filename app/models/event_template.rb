@@ -16,6 +16,7 @@
 class EventTemplate < ActiveRecord::Base
   attr_accessible :description, :latitude, :longitude, :mission_template_id, :parent_event_id, :radius, :title
 
-  has_one :mission_template
+  belongs_to :mission_template
   has_one :parent_event, :class_name => "Event"
+  has_many :event_instances
 end

@@ -10,5 +10,7 @@
 #
 
 class MissionTemplate < ActiveRecord::Base
-  attr_accessible :description, :name
+  attr_accessible :description, :title
+  has_many :mission_instances
+  has_many :event_templates
 end

@@ -1,7 +1,7 @@
 SampleApp::Application.routes.draw do
-  resources :missions
+  resources :mission_templates
 
-  resources :events
+  resources :event_templates
 
   resources :users
   resources :sessions, only: [:new, :create, :destroy]

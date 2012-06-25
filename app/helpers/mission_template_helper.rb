@@ -1,0 +1,2 @@
+module MissionTemplateHelper
+end
