@@ -9,6 +9,7 @@ class CreateEventInstances < ActiveRecord::Migration
     end
     add_index :event_instances, :event_template_id
     add_index :event_instances, :mission_instance_id
+    add_index :event_instances, :user_id
   end
 end
 

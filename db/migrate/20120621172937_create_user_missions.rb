@@ -7,5 +7,9 @@ class CreateUserMissions < ActiveRecord::Migration
 
       t.timestamps
     end
+    
+    add_index :user_missions, :user_id
+    add_index :user_missions, :mission_instance_id
+    add_index :user_missions, :current_event_id
   end
 end

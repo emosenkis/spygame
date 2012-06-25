@@ -11,7 +11,24 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120619184418) do
+ActiveRecord::Schema.define(:version => 20120621063658) do
+
+  create_table "event_instances", :force => true do |t|
+    t.integer  "parent_template"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+  end
+
+  create_table "event_templates", :force => true do |t|
+    t.string   "title"
+    t.text     "description"
+    t.integer  "parent_event"
+    t.float    "latitude"
+    t.float    "longitude"
+    t.integer  "radius"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+  end
 
   create_table "events", :force => true do |t|
     t.integer  "mission_id"
@@ -24,7 +41,14 @@ ActiveRecord::Schema.define(:version => 20120619184418) do
     t.datetime "updated_at",   :null => false
   end
 
-  create_table "missions", :force => true do |t|
+  create_table "mission_instances", :force => true do |t|
+    t.integer  "parent_template"
+    t.integer  "current_event"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+  end
+
+  create_table "mission_templates", :force => true do |t|
     t.string   "title"
     t.string   "description"
     t.datetime "created_at",  :null => false
