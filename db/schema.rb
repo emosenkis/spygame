@@ -13,12 +13,56 @@
 
 ActiveRecord::Schema.define(:version => 20120622191216) do
 
+  create_table "event_instances", :force => true do |t|
+    t.integer  "parent_template"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+  end
+
+  create_table "event_templates", :force => true do |t|
+    t.string   "title"
+    t.text     "description"
+    t.integer  "parent_event"
+    t.float    "latitude"
+    t.float    "longitude"
+    t.integer  "radius"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+  end
+
+  create_table "events", :force => true do |t|
+    t.integer  "mission_id"
+    t.string   "title"
+    t.string   "description"
+    t.integer  "parent_event"
+    t.float    "latitude"
+    t.float    "longitude"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+  end
+
+  create_table "mission_instances", :force => true do |t|
+    t.integer  "parent_template"
+    t.integer  "current_event"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+  end
+
+  create_table "mission_templates", :force => true do |t|
+    t.string   "title"
+    t.string   "description"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
   create_table "users", :force => true do |t|
     t.string   "name"
     t.string   "email"
     t.datetime "created_at",                         :null => false
     t.datetime "updated_at",                         :null => false
     t.string   "password_digest"
+    t.float    "latitude"
+    t.float    "longitude"
     t.string   "remember_token"
     t.boolean  "admin",           :default => false
   end
