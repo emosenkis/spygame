@@ -1,5 +1,6 @@
-<%= form_for(mission.events.build) do |f| %>
+<%= form_for(current_user.events.build(mission_id: mission.id)) do |f| %>
   <div><%= f.hidden_field :mission_id %></div> 
+  <div><%= f.hidden_field :user_id %>
   <div class="controls">
   <div class="field">
     <%= f.label :title %>

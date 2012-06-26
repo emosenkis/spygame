@@ -19,11 +19,9 @@
 <%= link_to 'Edit', edit_mission_path(@mission) %> |
 <%= link_to 'Back', missions_path %>
 
-<%= @events_count.inspect %>
-<hr/>
 <table class="table bordered-table">
     <tr><td>events</td></tr>
-<% @events.each do |f| %>
-<tr><td><%= puts "In order to #{@mission.title}, user #{f.user_id} #{f.title}, that #{f.description}" %> </td><tr>
+<% @mission.events.each do |f| %>
+<tr><td><%= "In order to #{@mission.title}, user #{f.user_id} #{f.title}, that #{f.description}" %> </td><tr>
 <% end %>
 </table>
