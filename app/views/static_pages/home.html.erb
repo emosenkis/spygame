@@ -1,13 +1,17 @@
 <div class="center hero-unit">
   <h1>Spy Game</h1>
-
+  <hr>
   <h2>
     Spy game is an awesome <a href="http://en.wikipedia.org/wiki/Alternate_reality_game">alternate reality game</a> developed at <a href="http://www.brandeis.edu">Brandeis University</a> as a part of the 2012 COSI <a href="http://www.brandeis.edu/jbs/">JBS</a> program.
   </h2>
+  <hr>
   <br/>
   	<%= link_to image_tag("i-spy.jpg", alt: "Spy"), '#' %>
 	</br>
-  <%= link_to "Sign up now!", signup_path, class: "btn btn-large btn-primary" %>
+	<hr>
+  	<% if !signed_in? %>
+  		<%= link_to "Sign up now!", signup_path, class: "btn btn-large btn-danger" %>
+  	<%else%>
+  		<%= link_to "Agent Profile", current_user, class: "btn btn-large btn-danger" %>
+  	<%end%>
 </div>
-
-
