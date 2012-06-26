@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Title:</b>
+  <%= @mission.title %>
+</p>
+
+<p>
+  <b>Description:</b>
+  <%= @mission.description %>
+</p>
+
+<p>
+  <b>Mission:</b>
+  <%= @mission.mission_id %>
+</p>
+
+
+<%= link_to 'Edit', edit_mission_path(@mission) %> |
+<%= link_to 'Back', missions_path %>
+
+<%= @events_count.inspect %>
+<hr/>
+<table class="table bordered-table">
+    <tr><td>events</td></tr>
+<% @events.each do |f| %>
+<tr><td><%= puts "In order to #{@mission.title}, user #{f.user_id} #{f.title}, that #{f.description}" %> </td><tr>
+<% end %>
+</table>

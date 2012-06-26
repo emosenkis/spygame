@@ -1,0 +1,14 @@
+<%= form_for(mission.events.build) do |f| %>
+  <div><%= f.hidden_field :mission_id %></div> 
+  <div class="controls">
+  <div class="field">
+    <%= f.label :title %>
+    <%= f.text_field :title %>
+  </div>
+  <div class="field">
+    <%= f.label :description %>
+    <%= f.text_field :description %>
+  </div>
+  </div>
+  <%= f.submit "Add Event", class: "btn btn-small" %> 
+<% end %>

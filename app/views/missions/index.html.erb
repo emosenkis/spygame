@@ -1,0 +1,28 @@
+<h1>Listing missions</h1>
+
+<table class='table'>
+  <tr>
+    <th>Title</th>
+    <th>Description</th>
+    <th>Mission</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @missions.each do |mission| %>
+  <tr>
+    <td><%= mission.title %></td>
+    <td><%= mission.description %></td>
+    <td><%= mission.mission_id %></td>
+    <td><%= link_to 'Show', mission %></td>
+    <td><%= link_to 'Edit', edit_mission_path(mission) %></td>
+    <td><%= link_to 'Destroy', mission, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+    <th> <%= render 'eventform', mission: mission %>    </th>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Mission', new_mission_path %>
