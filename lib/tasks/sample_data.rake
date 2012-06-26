@@ -16,4 +16,17 @@ namespace :db do
                    password_confirmation: password)
     end
   end
+  task missions: :environment do
+    File.open("lib/tasks/mission_templates.txt", 'rb').each_line { |x|
+      i = x.split(" | ")
+      MissionTemplate.create(title: i[0], description: i[1])
+    }
+  end
+
+  task events: :environment do
+    File.open("lib/tasks/event_templates.txt", 'rb').each_line { |x|
+      i = x.split(" | ")
+      EventTemplate.create(mission_template_id: i[0], parent_event_id: i[1], title: i[2], description: i[3])
+    }
+  end
 end

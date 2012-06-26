@@ -5,6 +5,7 @@ class MissionTemplatesController < ApplicationController
 
   def show
     @mission_template = MissionTemplate.find(params[:id])
+    @events = @mission_template.event_templates
   end
 
   def new

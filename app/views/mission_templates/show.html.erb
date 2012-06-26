@@ -1,0 +1,17 @@
+<% provide(:title, 'All Events') %>
+<h1>All Events</h1>
+
+<h3>
+<%= @mission_template.title %>
+</h3>
+
+<p>
+<%= @mission_template.description %>
+</p>
+
+<table class = "table-striped table-bordered">
+	<tr><th>Title</th><th>Description</th></tr>
+<% @events.each do |x|%>
+<tr><td><%=x.title%></td><td><%=x.description%></td></tr>
+	<%end%>
+</table>
