@@ -1,5 +1,5 @@
-<% provide(:title, 'All Events') %>
-<h1>All Events</h1>
+<% provide(:title, @mission_template.title) %>
+<h1><%= @mission_template.title %></h1>
 
 <h3>
 <%= @mission_template.title %>
@@ -15,3 +15,16 @@
 <tr><td><%=x.title%></td><td><%=x.description%></td></tr>
 	<%end%>
 </table>
+
+<div class = "row">
+	<div class="span8 offset2">
+	</div>
+</div>
+<div class="row">
+	<div class="span2 offset5">
+		<%= link_to "Play", '#', class: "btn btn-large btn-primary"%>
+	</div>
+</div>
+
+
+
