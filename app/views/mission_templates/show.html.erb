@@ -1,0 +1,6 @@
+<% provide(:title, 'View Mission') %>
+<h1><%= @mission_template.title %></h1>
+<p><%= @mission_template.description %></p>
+<% if current_user.admin? %>
+<%= link_to "Add Event", new_mission_template_event_template_path(@mission_template) %>
+<% end %>

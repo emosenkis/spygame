@@ -1,0 +1,8 @@
+<% provide(:title, 'Create a New Mission') %>
+<%= form_for @mission_template do |f| %>
+  <%= f.label :title %>
+  <%= f.text_field :title %>
+  <%= f.label :description %>
+  <%= f.text_area :description %>
+  <%= f.submit "Create Mission", class: "btn btn-large btn-primary" %>
+<% end %>

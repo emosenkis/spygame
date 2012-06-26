@@ -1,0 +1,9 @@
+<%= provide(title: "New Event") %>
+<%= form_for @event_template do |f| %>
+  <%= f.label :title %>
+  <%= f.text_field :title %>
+  <%= f.label :description %>
+  <%= f.text_area :description %>
+  <%= f.hidden_field :event_template, :mission_template_id %>
+  <%= f.submit "Create Event", class: "btn btn-large btn-primary" %>
+<% end %>

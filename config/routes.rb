@@ -1,6 +1,7 @@
 SampleApp::Application.routes.draw do
-  resources :mission_templates
-
+  resources :mission_templates do 
+    resources :event_templates
+  end
   resources :event_templates
 
   resources :users

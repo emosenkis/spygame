@@ -1,7 +1,7 @@
 class MissionTemplatesController < ApplicationController
- #before_filter :signed_in_user, only: [:index, :edit, :update, :destroy]
- # before_filter :correct_user,   only: [:edit, :update]
- #before_filter :admin_user,     only: :destroy
+ before_filter :signed_in_user
+ before_filter :admin_user,     only: [:edit, :update, :new, :create, :destroy]
+ attr_accessor :title, :description
 
   def show
     @mission_template = MissionTemplate.find(params[:id])
@@ -14,15 +14,16 @@ class MissionTemplatesController < ApplicationController
   def create
     @mission_template = MissionTemplate.new(params[:mission_template])
     if @mission_template.save
-      flash[:success] = "mission created"
+      flash[:success] = "Mission created."
       redirect_to @mission_template
     else
-    	flash[:error] = @mission_template.errors
+      flash[:error] = @mission_template.errors
       render 'new'
     end
   end
 
   def edit
+    @mission_template = MissionTemplate.find(params[:id])
   end
 
   def index
