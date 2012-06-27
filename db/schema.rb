@@ -11,58 +11,66 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120622191216) do
-
-  create_table "event_instances", :force => true do |t|
-    t.integer  "parent_template"
-    t.datetime "created_at",      :null => false
-    t.datetime "updated_at",      :null => false
-  end
+ActiveRecord::Schema.define(:version => 20120627175043) do
 
   create_table "event_templates", :force => true do |t|
+    t.integer  "mission_template_id"
     t.string   "title"
     t.text     "description"
-    t.integer  "parent_event"
+    t.integer  "parent_event_id"
     t.float    "latitude"
     t.float    "longitude"
-    t.integer  "radius"
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
+    t.float    "radius"
+    t.datetime "created_at",          :null => false
+    t.datetime "updated_at",          :null => false
   end
+
+  add_index "event_templates", ["mission_template_id"], :name => "index_event_templates_on_mission_template_id"
+  add_index "event_templates", ["parent_event_id"], :name => "index_event_templates_on_parent_event_id"
 
   create_table "events", :force => true do |t|
+    t.integer  "event_template_id"
     t.integer  "mission_id"
-    t.string   "title"
-    t.string   "description"
-    t.integer  "parent_event"
-    t.float    "latitude"
-    t.float    "longitude"
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
-  end
-
-  create_table "mission_instances", :force => true do |t|
-    t.integer  "parent_template"
-    t.integer  "current_event"
-    t.datetime "created_at",      :null => false
-    t.datetime "updated_at",      :null => false
+    t.integer  "user_id"
+    t.datetime "created_at",        :null => false
+    t.datetime "updated_at",        :null => false
   end
 
   create_table "mission_templates", :force => true do |t|
     t.string   "title"
-    t.string   "description"
+    t.text     "description"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
   end
 
+  create_table "missions", :force => true do |t|
+    t.integer  "mission_template_id"
+    t.datetime "created_at",          :null => false
+    t.datetime "updated_at",          :null => false
+  end
+
+  add_index "missions", ["mission_template_id"], :name => "index_missions_on_mission_template_id"
+
+  create_table "user_missions", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "mission_id"
+    t.integer  "current_event_id"
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
+  end
+
+  add_index "user_missions", ["current_event_id"], :name => "index_user_missions_on_current_event_id"
+  add_index "user_missions", ["mission_id"], :name => "index_user_missions_on_mission_id"
+  add_index "user_missions", ["user_id"], :name => "index_user_missions_on_user_id"
+
   create_table "users", :force => true do |t|
     t.string   "name"
     t.string   "email"
-    t.datetime "created_at",                         :null => false
-    t.datetime "updated_at",                         :null => false
     t.string   "password_digest"
     t.float    "latitude"
     t.float    "longitude"
+    t.datetime "created_at",                         :null => false
+    t.datetime "updated_at",                         :null => false
     t.string   "remember_token"
     t.boolean  "admin",           :default => false
   end
