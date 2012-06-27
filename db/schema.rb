@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120627175338) do
+ActiveRecord::Schema.define(:version => 20120627192524) do
 
   create_table "event_instances", :force => true do |t|
     t.integer  "event_template_id"
@@ -78,7 +78,7 @@ ActiveRecord::Schema.define(:version => 20120627175338) do
   add_index "user_missions", ["user_id"], :name => "index_user_missions_on_user_id"
 
   create_table "users", :force => true do |t|
-    t.string   "title"
+    t.string   "name"
     t.string   "email"
     t.datetime "created_at",                         :null => false
     t.datetime "updated_at",                         :null => false
