@@ -2,15 +2,16 @@
 #
 # Table name: event_templates
 #
-#  id           :integer         not null, primary key
-#  title        :string(255)
-#  description  :text
-#  parent_event :integer
-#  latitude     :float
-#  longitude    :float
-#  radius       :integer
-#  created_at   :datetime        not null
-#  updated_at   :datetime        not null
+#  id                  :integer         not null, primary key
+#  mission_template_id :integer
+#  title               :string(255)
+#  description         :text
+#  parent_event_id     :integer
+#  latitude            :float
+#  longitude           :float
+#  radius              :float
+#  created_at          :datetime        not null
+#  updated_at          :datetime        not null
 #
 
 class EventTemplate < ActiveRecord::Base
@@ -18,5 +19,5 @@ class EventTemplate < ActiveRecord::Base
 
   belongs_to :mission_template
   has_one :parent_event, :class_name => "Event"
-  has_many :event_instances
+  has_many :events
 end
