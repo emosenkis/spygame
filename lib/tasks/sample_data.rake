@@ -19,7 +19,7 @@ namespace :db do
   task missions: :environment do
     File.open("lib/tasks/mission_templates.txt", 'rb').each_line { |x|
       i = x.split(" | ")
-      MissionTemplate.create(title: i[0], description: i[1])
+      MissionTemplate.create(title: i[0], description: i[1], image: i[2])
     }
   end
 
