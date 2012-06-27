@@ -3,9 +3,12 @@
   <aside class="span4">
     <section>
       <h1>
-        <%= gravatar_for @user %>
+        <%= gravatar_for @user, size: 100 %>
+        Agent 
         <%= @user.name %>
       </h1>
     </section>
   </aside>
+  <%= link_to "Select Missions", mission_templates_path, class: "btn" %>
+
 </div>
