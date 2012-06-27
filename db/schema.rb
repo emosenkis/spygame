@@ -1,4 +1,4 @@
-# encoding: UTF-8 
+# encoding: UTF-8
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120627192524) do
+ActiveRecord::Schema.define(:version => 20120627175338) do
 
   create_table "event_instances", :force => true do |t|
     t.integer  "event_template_id"
@@ -40,6 +40,14 @@ ActiveRecord::Schema.define(:version => 20120627192524) do
   add_index "event_templates", ["mission_template_id"], :name => "index_event_templates_on_mission_template_id"
   add_index "event_templates", ["parent_event_id"], :name => "index_event_templates_on_parent_event_id"
 
+  create_table "events", :force => true do |t|
+    t.integer  "event_template_id"
+    t.integer  "mission_id"
+    t.integer  "user_id"
+    t.datetime "created_at",        :null => false
+    t.datetime "updated_at",        :null => false
+  end
+
   create_table "mission_instances", :force => true do |t|
     t.integer  "mission_template_id"
     t.datetime "created_at",          :null => false
@@ -49,12 +57,20 @@ ActiveRecord::Schema.define(:version => 20120627192524) do
   add_index "mission_instances", ["mission_template_id"], :name => "index_mission_instances_on_mission_template_id"
 
   create_table "mission_templates", :force => true do |t|
-    t.string   "name"
+    t.string   "title"
     t.text     "description"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
     t.string   "image"
   end
+
+  create_table "missions", :force => true do |t|
+    t.integer  "mission_template_id"
+    t.datetime "created_at",          :null => false
+    t.datetime "updated_at",          :null => false
+  end
+
+  add_index "missions", ["mission_template_id"], :name => "index_missions_on_mission_template_id"
 
   create_table "user_missions", :force => true do |t|
     t.integer  "user_id"
