@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120627192524) do
+ActiveRecord::Schema.define(:version => 20120627175551) do
 
   create_table "event_instances", :force => true do |t|
     t.integer  "event_template_id"
@@ -35,19 +35,11 @@ ActiveRecord::Schema.define(:version => 20120627192524) do
     t.float    "radius"
     t.datetime "created_at",          :null => false
     t.datetime "updated_at",          :null => false
+    t.string   "image"
   end
 
   add_index "event_templates", ["mission_template_id"], :name => "index_event_templates_on_mission_template_id"
   add_index "event_templates", ["parent_event_id"], :name => "index_event_templates_on_parent_event_id"
-
-  create_table "microposts", :force => true do |t|
-    t.string   "content"
-    t.integer  "user_id"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-  end
-
-  add_index "microposts", ["user_id", "created_at"], :name => "index_microposts_on_user_id_and_created_at"
 
   create_table "mission_instances", :force => true do |t|
     t.integer  "mission_template_id"
@@ -80,9 +72,11 @@ ActiveRecord::Schema.define(:version => 20120627192524) do
   create_table "users", :force => true do |t|
     t.string   "name"
     t.string   "email"
+    t.string   "password_digest"
+    t.float    "latitude"
+    t.float    "longitude"
     t.datetime "created_at",                         :null => false
     t.datetime "updated_at",                         :null => false
-    t.string   "password_digest"
     t.string   "remember_token"
     t.boolean  "admin",           :default => false
   end

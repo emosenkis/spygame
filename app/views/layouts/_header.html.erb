@@ -8,8 +8,8 @@
           <li><%= link_to "Help", help_path %></li>
           <% if signed_in? %>
             <li><%= link_to "Users", users_path %></li>
-            <li id="fat-menu" class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+            <li class="dropdown" id="account_menu">
+              <a class="dropdown-toggle" data-toggle="dropdown" href="#account_menu">
                 Account <b class="caret"></b>
               </a>
               <ul class="dropdown-menu">
