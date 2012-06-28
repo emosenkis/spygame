@@ -40,6 +40,4 @@ class EventTemplateController < ApplicationController
       render 'edit'
     end
   end
-
- end
 end
