@@ -39,7 +39,8 @@ class MissionTemplatesController < ApplicationController
   end
 
   def update
-    if @mission_template.update_attributes(params[:id])
+    @mission_template = MissionTemplate.find(params[:id])
+    if @mission_template.update_attributes(params[:mission_template])
       flash[:success] = "mission updated"
       redirect_to @mission_template
     else
