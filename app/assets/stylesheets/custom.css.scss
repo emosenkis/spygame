@@ -35,6 +35,16 @@ textarea {
   }
 }
 
+.thumbnail {
+    text-align: center;
+}
+
+.thumbnails > li {
+    display: inline-block;
+    *display:inline; /* ie7 fix */
+    float: none; /* this is the part that makes it work */
+}
+
 /* typography */
 
 h1, h2, h3, h4, h5, h6 {
