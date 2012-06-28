@@ -11,24 +11,8 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-<<<<<<< HEAD
-ActiveRecord::Schema.define(:version => 20120627175043) do
-  
-=======
+
 ActiveRecord::Schema.define(:version => 20120627175551) do
-
-  create_table "event_instances", :force => true do |t|
-    t.integer  "event_template_id"
-    t.integer  "user_id"
-    t.integer  "mission_instance_id"
-    t.datetime "created_at",          :null => false
-    t.datetime "updated_at",          :null => false
-  end
-
-  add_index "event_instances", ["event_template_id"], :name => "index_event_instances_on_event_template_id"
-  add_index "event_instances", ["mission_instance_id"], :name => "index_event_instances_on_mission_instance_id"
-  add_index "event_instances", ["user_id"], :name => "index_event_instances_on_user_id"
->>>>>>> 26daf53640bd7dea4df3e47762f8e867e6dd8720
 
   create_table "event_templates", :force => true do |t|
     t.integer  "mission_template_id"
@@ -46,7 +30,7 @@ ActiveRecord::Schema.define(:version => 20120627175551) do
   add_index "event_templates", ["mission_template_id"], :name => "index_event_templates_on_mission_template_id"
   add_index "event_templates", ["parent_event_id"], :name => "index_event_templates_on_parent_event_id"
 
-<<<<<<< HEAD
+
   create_table "events", :force => true do |t|
     t.integer  "event_template_id"
     t.integer  "mission_id"
@@ -55,28 +39,13 @@ ActiveRecord::Schema.define(:version => 20120627175551) do
     t.datetime "updated_at",        :null => false
   end
 
-=======
-  create_table "mission_instances", :force => true do |t|
-    t.integer  "mission_template_id"
-    t.datetime "created_at",          :null => false
-    t.datetime "updated_at",          :null => false
-  end
 
-  add_index "mission_instances", ["mission_template_id"], :name => "index_mission_instances_on_mission_template_id"
-
->>>>>>> 26daf53640bd7dea4df3e47762f8e867e6dd8720
   create_table "mission_templates", :force => true do |t|
     t.string   "title"
     t.text     "description"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
     t.string   "image"
-  end
-
-  create_table "missions", :force => true do |t|
-    t.integer  "mission_template_id"
-    t.datetime "created_at",          :null => false
-    t.datetime "updated_at",          :null => false
   end
 
   create_table "missions", :force => true do |t|
