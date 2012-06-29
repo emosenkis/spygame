@@ -1,4 +1,5 @@
 class StaticPagesController < ApplicationController
+  before_filter :force_mobile_format, only: :home
   def home
   end
 
