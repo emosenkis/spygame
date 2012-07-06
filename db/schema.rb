@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120627175551) do
+ActiveRecord::Schema.define(:version => 20120705155727) do
 
   create_table "event_instances", :force => true do |t|
     t.integer  "event_template_id"
@@ -49,6 +49,25 @@ ActiveRecord::Schema.define(:version => 20120627175551) do
     t.datetime "updated_at",        :null => false
   end
 
+  create_table "game_states", :force => true do |t|
+    t.datetime "date_time_of_start"
+    t.integer  "game_template_id"
+    t.text     "state"
+    t.datetime "created_at",         :null => false
+    t.datetime "updated_at",         :null => false
+  end
+
+  add_index "game_states", ["date_time_of_start"], :name => "index_game_states_on_date_time_of_start"
+  add_index "game_states", ["game_template_id"], :name => "index_game_states_on_game_template_id"
+
+  create_table "game_templates", :force => true do |t|
+    t.string   "class_name"
+    t.string   "name"
+    t.text     "description"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
   create_table "mission_instances", :force => true do |t|
     t.integer  "mission_template_id"
     t.datetime "created_at",          :null => false
@@ -72,6 +91,20 @@ ActiveRecord::Schema.define(:version => 20120627175551) do
   end
 
   add_index "missions", ["mission_template_id"], :name => "index_missions_on_mission_template_id"
+
+  create_table "players", :force => true do |t|
+    t.integer  "game_state_id"
+    t.integer  "user_id"
+    t.float    "latitude"
+    t.float    "longitude"
+    t.string   "role"
+    t.text     "state"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+  end
+
+  add_index "players", ["game_state_id"], :name => "index_players_on_game_state_id"
+  add_index "players", ["user_id"], :name => "index_players_on_user_id"
 
   create_table "user_missions", :force => true do |t|
     t.integer  "user_id"
