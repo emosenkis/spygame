@@ -1,4 +1,5 @@
 class SessionsController < ApplicationController
+  before_filter :force_mobile_format, only: :new
 
 	def new
 	end
