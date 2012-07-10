@@ -2,8 +2,7 @@
 var commands=[];
 // Handle location data
 commands.geolocationSuccess=function(position) {
-    $.post('https://spy-game.herokuapp.com/update_position', position, handle_update, 'json');
-    $('#content').append('<p>You are within '+position.coords.accuracy+' meters of '+position.coords.latitude+', '+position.coords.longitude+'</p>');
+    $.post('https://spy-game.herokuapp.com/games/'+document.game_id+'/update_position', position, handle_update, 'json');
 };
 // Handle an error while trying to get location
 commands.geolocationError=function(error) {
@@ -47,3 +46,7 @@ function handle_update(data, textStatus, jXHR) {
 		update_positions(data);
 	}
 }
+
+$(document).bind("mobileinit", function(){
+	$.mobile.ajaxEnabled = false;
+});

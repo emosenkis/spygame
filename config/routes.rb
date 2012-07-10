@@ -20,7 +20,7 @@ SampleApp::Application.routes.draw do
   match '/games/:id/join', to: 'games#join', as: :join_game
   match '/games/:id/leave', to: 'games#leave', as: :leave_game
   match '/games/:id/start', to: 'games#start', as: :start_game
-  match 'update_position', to: 'games#update_position', as: :update_position
+  match '/games/:id/update_position', to: 'games#update_position', as: :update_position
   match '/games/:id/briefing', to: 'games#briefing', as: :game_briefing
   match '/games/:id/debriefing', to: 'games#debriefing', as: :game_debriefing
 
