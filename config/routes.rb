@@ -3,12 +3,13 @@ SampleApp::Application.routes.draw do
   resources :users
   resources :sessions, only: [:new, :create, :destroy]
 
-  root to: 'static_pages#home'
+  root to: 'games#index'
 
   match 'signup', to: 'users#new'
   match 'signin', to: 'sessions#new', as: :signin
   match 'signout', to: 'sessions#destroy' #, via: :delete
 
+  match '/about',    to: 'static_pages#home'
   match '/help',    to: 'static_pages#help'
   match '/about',   to: 'static_pages#about'
   match '/contact', to: 'static_pages#contact'
@@ -20,7 +21,7 @@ SampleApp::Application.routes.draw do
   match '/games/:id/leave', to: 'games#leave', as: :leave_game
   match '/games/:id/start', to: 'games#start', as: :start_game
   match '/games/:id/main', to: 'games#main', as: :game_main
-  match 'update_position', to: 'games#update_position', as: :update_position
+  match '/games/:id/update_position', to: 'games#update_position', as: :update_position
   match '/games/:id/briefing', to: 'games#briefing', as: :game_briefing
   match '/games/:id/debriefing', to: 'games#debriefing', as: :game_debriefing
 

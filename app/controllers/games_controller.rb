@@ -1,6 +1,7 @@
 class GamesController < ApplicationController
-  before_filter :signed_in?
-  before_filter :user_in_game, only: [:start, :leave]
+
+  before_filter :signed_in_user
+  before_filter :user_in_game, only: [:update_position, :briefing, :start, :leave]
   before_filter :user_playing_game, only: [:update_position, :briefing, :main]
   before_filter :force_mobile_format
   def index
@@ -18,10 +19,12 @@ class GamesController < ApplicationController
     redirect_to join_game_path(@game)
   end
   def join
-    @game = GameState.find(params[:id])
-    @player = @game.players.new(user_id: @current_user.id)
-    @player.save!
-    redirect_to @game
+    game = GameState.find(params[:id])
+    if game.state == 'pending' && !game.players.find_by_user_id(@current_user.id)
+      @player = game.players.new(user_id: @current_user.id)
+      @player.save!
+    end
+    redirect_to game
   end
   def start
     if @game.state == 'pending'
@@ -61,12 +64,22 @@ class GamesController < ApplicationController
      detectives=@game.players.where(role: 'detective')
      data={
        detectives: detectives.collect do |player|
-         {user_id: player.user_id, latitude: player.latitude, longitude: player.longitude}
+         {
+           user_id: player.user_id,
+           latitude: player.latitude,
+           longitude: player.longitude,
+           name: player.user.name
+         }
        end,
        your_id: @current_user.id
      }
      if spy
-       data[:spy]={user_id: spy.user_id, latitude: spy.latitude, longitude: spy.longitude}
+       data[:spy]={
+         user_id: spy.user_id,
+         latitude: spy.latitude,
+         longitude: spy.longitude,
+         name: spy.user.name
+       }
      end
      render json: data
   end
@@ -80,8 +93,7 @@ class GamesController < ApplicationController
       end
     end
     def user_playing_game
-      @game = current_user.game_states.where(state: 'playing').first
-      if @game.nil?
+      if @game.state != 'playing'
         render json: {goto: games_url}
       end
     end

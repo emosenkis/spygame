@@ -12,6 +12,6 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require jquery.mobile
 //= require postmessage
 //= require remote
+//= require jquery.mobile
