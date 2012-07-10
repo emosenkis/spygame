@@ -18,10 +18,12 @@ class GamesController < ApplicationController
     redirect_to join_game_path(@game)
   end
   def join
-    @game = GameState.find(params[:id])
-    @player = @game.players.new(user_id: @current_user.id)
-    @player.save!
-    redirect_to @game
+    game = GameState.find(params[:id])
+    if game.state == 'pending' && !game.players.find_by_user_id(@current_user.id)
+      @player = game.players.new(user_id: @current_user.id)
+      @player.save!
+    end
+    redirect_to game
   end
   def start
     if @game.state == 'pending'
