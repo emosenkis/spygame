@@ -1,0 +1,10 @@
+<% provide(:title, "The Game Begins!") %>
+<% if @player.role == 'spy' %>
+You are the spy. Run away from the detectives!
+<% elsif @player.role == 'detective' %>
+You are a detective. Find the spy!
+<% else %>
+You are a <%= @player.role %>. I have no idea what you're supposed to do in this game. You might want to consider leaving the game...
+<% end %>
+<br/>
+<%= link_to 'Leave Game', leave_game_path(@game) %>

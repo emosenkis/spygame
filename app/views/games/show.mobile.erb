@@ -1,0 +1,14 @@
+<% provide(:title, "Game "+@game.id.to_s) %>
+Game status: <%= @game.state %><br/>
+Players in this game:
+<% @game.players.each do |player| %>
+<%= player.user.name %>, 
+<% end %>
+<br/>
+<% if @in_game %>
+<%= link_to 'Start Game', start_game_path(@game) %>
+<%= link_to 'Leave Game', leave_game_path(@game) %>
+<% else %>
+<%= link_to 'Join Game', join_game_path(@game) %>
+<% end %>
+<%= link_to 'Games', games_path %>

@@ -13,7 +13,15 @@ SampleApp::Application.routes.draw do
   match '/about',   to: 'static_pages#about'
   match '/contact', to: 'static_pages#contact'
 
-  match '/games/:game/new', to: 'games#new', as: :new_game
+  match '/games', to: 'games#index', as: :games
+  match '/games/new', to: 'games#create', as: :new_game
+  match '/games/:id', to: 'games#show', as: :game_state
+  match '/games/:id/join', to: 'games#join', as: :join_game
+  match '/games/:id/leave', to: 'games#leave', as: :leave_game
+  match '/games/:id/start', to: 'games#start', as: :start_game
+  match 'update_position', to: 'games#update_position', as: :update_position
+  match '/games/:id/briefing', to: 'games#briefing', as: :game_briefing
+  match '/games/:id/debriefing', to: 'games#debriefing', as: :game_debriefing
 
 
   # The priority is based upon order of creation:

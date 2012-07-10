@@ -1,0 +1,11 @@
+<% provide(:title, "Games") %>
+<ul>
+<% @games.each do |game| %>
+<li><%= link_to 'Game '+game.id.to_s, game_path(game) %>:
+<% game.players.each do |player| %>
+<%= player.user.name %>,
+<% end %>
+</li>
+<% end %>
+</ul>
+<%= link_to 'New Game', new_game_path %>
