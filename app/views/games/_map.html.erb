@@ -1,0 +1,82 @@
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta charset="UTF-8">
+<style type="text/css">
+html, #map_canvas {
+    padding: 30%;
+    height: 50%;
+    position:absolute;
+    top:70px;
+    left:0;
+    right:0;
+    bottom:0;
+    margin:auto;
+    min-width:50%;
+    min-height:50%;
+  }
+</style>
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
+<script type="text/javascript">
+  var map;
+      function initialize() {
+
+        var myOptions = {
+          zoom: 13,
+          center: new google.maps.LatLng(42.32657009662249, -71.06678009033203),
+          disableDefaultUI: true,
+          panControl: true,
+          zoomControl: true,
+          
+          scaleControl: true,
+          mapTypeId: google.maps.MapTypeId.ROADMAP,
+          panControl: true,
+          panControlOptions: {
+            position: google.maps.ControlPosition.TOP_RIGHT
+          },
+          zoomControl: true,
+          zoomControlOptions: {
+            style: google.maps.ZoomControlStyle.LARGE,
+            position: google.maps.ControlPosition.TOP_RIGHT
+          }
+        };
+        map = new google.maps.Map(document.getElementById('map_canvas'),
+            myOptions);
+      }
+
+      function update_positions(data) {
+         var detectives=data.detectives;
+         for (d in detectives) {
+           if (d.user_id === data.your_id) {
+         }
+        var spy=data.spy;
+      }
+
+      function moveMarker(marker, lat, long ) {
+        marker.setPosition(new google.maps.LatLng( lat, long));
+      };
+
+      function addMarker(lat, long, name){
+            var marker = new google.maps.Marker({
+              position: new google.maps.LatLng(lat, long),
+              map: map,
+              title: name
+            });
+            //DROP PIN
+            marker.setAnimation(google.maps.Animation.DROP);
+            marker.setTitle('DROP');
+            //DROP MARKER INFOWINDOW
+            var latlng = new google.maps.LatLng(lat, long);
+            google.maps.event.addListener(marker, 'click', function(){
+              infowindow.open(map, this);
+              marker = this
+            });
+            var infowindow = new google.maps.InfoWindow({
+              content: name
+            });
+            //CLOSING MARKER INFOWINDOW
+            google.maps.event.addListener(infowindow,'closeclick',function(){
+              infowindow.close(map, this); //removes the marker
+            });
+        }
+      console.log("message")
+      google.maps.event.addDomListener(window, 'load', initialize);
+</script>
