@@ -1,5 +1,3 @@
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-<meta charset="UTF-8">
 <style type="text/css">
 html, #map_canvas {
     padding: 30%;
@@ -17,6 +15,7 @@ html, #map_canvas {
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
 <script type="text/javascript">
   var map;
+  var markerList;
       function initialize() {
 
         var myOptions = {
@@ -43,26 +42,36 @@ html, #map_canvas {
       }
 
       function update_positions(data) {
+        //if marker exists, update its location, else create it
          var detectives=data.detectives;
-         for (d in detectives) {
-           if (d.user_id === data.your_id) {
+         for (var d in detectives) {
+            if (markerList.hasOwnProperty(d.user_id)) {
+              moveMarker(markerList[d.user_id], d.latitude, d.longitude)
+            }
+            else {
+              addMarker(d.latitude, d.longitude, d.user_id, d.name)
+            }
          }
         var spy=data.spy;
+        if (markerList.hasOwnProperty(spy.user_id)) {
+              moveMarker(markerList[spy.user_id], spy.latitude, spy.longitude)
+            }
+            else {
+              addMarker(spy.latitude, spy.longitude, spy.user_id, spy.name)
+            }
       }
 
       function moveMarker(marker, lat, long ) {
         marker.setPosition(new google.maps.LatLng( lat, long));
       };
 
-      function addMarker(lat, long, name){
+      function addMarker(lat, long, id, name){
             var marker = new google.maps.Marker({
               position: new google.maps.LatLng(lat, long),
               map: map,
               title: name
             });
-            //DROP PIN
-            marker.setAnimation(google.maps.Animation.DROP);
-            marker.setTitle('DROP');
+            markerList[id] = marker
             //DROP MARKER INFOWINDOW
             var latlng = new google.maps.LatLng(lat, long);
             google.maps.event.addListener(marker, 'click', function(){
@@ -77,6 +86,6 @@ html, #map_canvas {
               infowindow.close(map, this); //removes the marker
             });
         }
-      console.log("message")
+      console.log("marker placed")
       google.maps.event.addDomListener(window, 'load', initialize);
 </script>

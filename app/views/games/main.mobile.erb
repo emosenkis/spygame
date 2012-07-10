@@ -1,12 +1,10 @@
-<!--<MAIN GAME PAGE FOR SPY GAME -->
-<!--*******************************-->
-
-<% provide(:title, 'Home') %>
-<head>
+<% provide(:title, 'Map') %>
   <%= render 'map' %>
-</head>
+  <script type="text/javascript">
+  document.game_id=<%=@game.id%>;
+  watchPosition();
+  </script>
 
 
-<body>
+
   <div id="map_canvas" id="bg" > </div>
-</body>

@@ -1,7 +1,7 @@
 class GamesController < ApplicationController
   before_filter :signed_in?
   before_filter :user_in_game, only: [:start, :leave]
-  before_filter :user_playing_game, only: [:update_position, :briefing]
+  before_filter :user_playing_game, only: [:update_position, :briefing, :main]
   before_filter :force_mobile_format
   def index
     @games = GameState.paginate(page: params[:page])
@@ -38,6 +38,8 @@ class GamesController < ApplicationController
   end
   def briefing
     @player=@game.players.find_by_user_id(@current_user.id)
+  end
+  def main
   end
   def leave
     game = GameState.find(params[:id])
