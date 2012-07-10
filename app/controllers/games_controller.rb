@@ -1,5 +1,5 @@
 class GamesController < ApplicationController
-  before_filter :signed_in?
+  before_filter :signed_in_user
   before_filter :user_in_game, only: [:start, :leave]
   before_filter :user_playing_game, only: [:update_position, :briefing]
   before_filter :force_mobile_format
