@@ -29,6 +29,10 @@ pm.bind("command", function(data) {
     alert('Running '+data.cmd);
     return commands[data.cmd](data.args);
 }, "https://spy-game.herokuapp.com");
+pm.bind("command", function(data) {
+    alert('(insecure) Running '+data.cmd);
+    return commands[data.cmd](data.args);
+}, "http://spy-game.herokuapp.com");
 function remoteCmd(cmd, args, success, error) {
     pm({
         target: window.frames[0],
