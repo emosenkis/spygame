@@ -1,17 +1,5 @@
-<style type="text/css">
-html, #map_canvas {
-    padding: 30%;
-    height: 50%;
-    position:absolute;
-    top:70px;
-    left:0;
-    right:0;
-    bottom:0;
-    margin:auto;
-    min-width:50%;
-    min-height:50%;
-  }
-</style>
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
 <script type="text/javascript">
   var map;
@@ -19,26 +7,22 @@ html, #map_canvas {
       function initialize() {
 
         var myOptions = {
-          zoom: 13,
-          center: new google.maps.LatLng(42.32657009662249, -71.06678009033203),
+          zoom: 16,
+          center: new google.maps.LatLng(42.367201,-71.258851),
           disableDefaultUI: true,
-          panControl: true,
-          zoomControl: true,
+  
           
-          scaleControl: true,
+          scaleControl: false,
           mapTypeId: google.maps.MapTypeId.ROADMAP,
-          panControl: true,
-          panControlOptions: {
-            position: google.maps.ControlPosition.TOP_RIGHT
-          },
-          zoomControl: true,
-          zoomControlOptions: {
-            style: google.maps.ZoomControlStyle.LARGE,
-            position: google.maps.ControlPosition.TOP_RIGHT
-          }
+          panControl: false,
+          zoomControl: false,
+        
         };
         map = new google.maps.Map(document.getElementById('map_canvas'),
             myOptions);
+
+        addMarker(42.367201,-71.258851, 1, 'test');
+        
       }
 
       function update_positions(data) {

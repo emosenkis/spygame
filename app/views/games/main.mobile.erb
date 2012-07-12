@@ -1,10 +1,10 @@
 <% provide(:title, 'Map') %>
   <%= render 'map' %>
   <script type="text/javascript">
-  document.game_id=<%=@game.id%>;
+ document.game_id=<%=@game.id%>;
   watchPosition();
   </script>
 
 
 
-  <div id="map_canvas" id="bg" > </div>
+  <div id="map_canvas" id="bg" style="width: 500px; height: 600px" > </div>

@@ -1,8 +1,8 @@
 class GamesController < ApplicationController
 
   before_filter :signed_in_user
-  before_filter :user_in_game, only: [:update_position, :briefing, :start, :leave]
-  before_filter :user_playing_game, only: [:update_position, :briefing, :main]
+  before_filter :user_in_game, only: [:update_position, :briefing, :start, :leave, :main]
+  before_filter :game_state_is_playing, only: [:briefing, :main]
   before_filter :force_mobile_format
   def index
     @games = GameState.paginate(page: params[:page])
@@ -56,6 +56,10 @@ class GamesController < ApplicationController
     redirect_to games_path
   end
   def update_position
+     if @game.state != 'playing'
+        render json: {goto: games_path}
+        return
+     end
      player=@game.players.find_by_user_id(@current_user.id)
      player.latitude=params[:latitude]
      player.longitude=params[:longitude]
@@ -92,9 +96,9 @@ class GamesController < ApplicationController
         redirect_to games_path
       end
     end
-    def user_playing_game
+    def game_state_is_playing
       if @game.state != 'playing'
-        render json: {goto: games_url}
+        redirect_to @game
       end
     end
 end
