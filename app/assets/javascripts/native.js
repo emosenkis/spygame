@@ -12,19 +12,21 @@ commands.watchPosition=function() {
 commands.clearWatch=function() {
     if (typeof document.watch_id !== 'undefined') {
         navigator.geolocation.clearWatch(document.watch_id);
-/*        alert('Cleared watch');
+        alert('Cleared watch');
     } else {
-        alert('No watch to clear');*/
+        alert('No watch to clear');
     }
 };
 function geolocationSuccess(position) {
+    alert('GPS good');
     remoteCmd('geolocationSuccess', position);
 }
 function geolocationFailure(error) {
+    alert('GPS bad');
     remoteCmd('geolocationError', error.message);
 }
 pm.bind("command", function(data) {
-    //alert('Running '+data.cmd);
+    alert('Running '+data.cmd);
     return commands[data.cmd](data.args);
 }, "http://people.brandeis.edu");
 function remoteCmd(cmd, args, success, error) {
