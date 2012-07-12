@@ -33,7 +33,7 @@ function remoteCmd(cmd, args, success, error) {
         success: success,
         error: error
     });
-//    alert('Sent '+cmd);
+    alert('Sent '+cmd);
 }
 
 // Commands to be run directly on the phone

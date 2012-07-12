@@ -93,7 +93,7 @@ class GamesController < ApplicationController
   private
 
     def user_in_game
-      @game = current_user.game_states.first
+      @game = current_user.game_states.find(params[:id])
       if @game.nil?
         redirect_to games_path
       end
