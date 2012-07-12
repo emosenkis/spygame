@@ -28,7 +28,7 @@ function geolocationFailure(error) {
 pm.bind("command", function(data) {
     alert('Running '+data.cmd);
     return commands[data.cmd](data.args);
-}, "http://people.brandeis.edu");
+}, "https://spy-game.herokuapp.com");
 function remoteCmd(cmd, args, success, error) {
     pm({
         target: window.frames[0],
