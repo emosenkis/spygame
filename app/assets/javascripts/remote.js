@@ -5,7 +5,7 @@ var last_loc={};
 // Handle location data
 commands.geolocationSuccess=function(position) {
   last_loc=position;
-  map.panTo(new google.maps.LatLng(position.latitude, position.longitude);
+  map.panTo(new google.maps.LatLng(position.latitude, position.longitude));
 };
 
 function pushPosition() {
@@ -16,10 +16,12 @@ function pushPosition() {
 commands.geolocationError=function(error) {
     $('#content').append('<p style="background-color: red">'+error+'</p>');
 };
+
 // Listen to commands sent by the code running directly on the phone
 pm.bind("command", function(data) {
     return commands[data.cmd](data.args);
 }, "file://");
+
 // Send a command to the native phone code
 function remoteCmd(cmd, args, success, error) {
     pm({
@@ -34,13 +36,13 @@ function remoteCmd(cmd, args, success, error) {
 
 // Commands to be run directly on the phone
 function watchPosition() {
-	remoteCmd('watchPosition');
+  remoteCmd('watchPosition');
 }
 function clearWatch() {
-	remoteCmd('clearWatch');
+  remoteCmd('clearWatch');
 }
 function getPosition() {
-	remoteCmd('getPosition');
+  remoteCmd('getPosition');
 }
 function exitApp() {
     remoteCmd('exit');
@@ -48,14 +50,14 @@ function exitApp() {
 
 // Handle game state data (after posting to /update_position in commands.geolocationSuccess)
 function handle_update(data, textStatus, jXHR) {
-	if (data.goto) {
-		document.location=data.goto;
-	} else {
-		update_positions(data);
-	}
+  if (data.goto) {
+    document.location=data.goto;
+  } else {
+    update_positions(data);
+  }
 }
 
 $(document).bind("mobileinit", function(){
-	$.mobile.ajaxEnabled = false;
+  $.mobile.ajaxEnabled = false;
   setInterval(pushPosition, 10000);
 });
