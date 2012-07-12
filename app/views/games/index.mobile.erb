@@ -8,4 +8,17 @@
 </li>
 <% end %>
 </ul>
-<%= link_to 'New Game', new_game_path %>
+<div data-role="navbar" data-iconpos="top" data-theme="a">
+    <ul>
+        <li>
+            <a href="<%=new_game_path %>" data-theme="" data-icon="home">
+                New Game
+            </a>
+        </li>
+        <li>
+            <a href="<%=signout_path%>" data-theme="" data-icon="back">
+                Log Out
+            </a>
+        </li>
+    </ul>
+</div>

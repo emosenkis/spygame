@@ -7,5 +7,18 @@ You are a detective. Find the spy!
 You are a <%= @player.role %>. I have no idea what you're supposed to do in this game. You might want to consider leaving the game...
 <% end %>
 <br/>
-<%= link_to 'Map', game_main_path(@game) %>
-<%= link_to 'Leave Game', leave_game_path(@game) %>
+
+<div data-role="navbar" data-iconpos="top" data-theme="a">
+    <ul>
+	<li>
+    <a href="<%=game_main_path(@game)%>" data-theme="" data-icon="home">
+        Map
+    </a>
+	</li>
+	<li>
+	    <a href="<%=leave_game_path(@game)%>" data-theme="" data-icon="back">
+	        Leave Game
+	    </a>
+	</li>
+   </ul>
+</div>
