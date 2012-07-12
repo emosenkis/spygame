@@ -1,7 +1,7 @@
 // Commands that can be executed by the code running directly on the phone
 var commands=[];
 // Store current location
-var last_loc={};
+document.last_loc={};
 // Handle location data
 commands.geolocationSuccess=function(position) {
   last_loc=position;
@@ -9,7 +9,7 @@ commands.geolocationSuccess=function(position) {
 };
 
 function pushPosition() {
-    $.post('https://spy-game.herokuapp.com/games/'+document.game_id+'/update_position', last_loc, handle_update, 'json');
+    $.post('https://spy-game.herokuapp.com/games/'+document.game_id+'/update_position', document.last_loc, handle_update, 'json');
 }
 
 // Handle an error while trying to get location

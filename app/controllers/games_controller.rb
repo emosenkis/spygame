@@ -61,9 +61,11 @@ class GamesController < ApplicationController
         return
      end
      player=@game.players.find_by_user_id(@current_user.id)
-     player.latitude=params[:latitude]
-     player.longitude=params[:longitude]
-     player.save
+     if !!params[:latitude] && !!params[:longitude]
+       player.latitude=params[:latitude]
+       player.longitude=params[:longitude]
+       player.save
+     end
      spy=@game.players.find_by_role('spy')
      detectives=@game.players.where(role: 'detective')
      data={
