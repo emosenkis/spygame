@@ -1,9 +1,17 @@
 // Commands that can be executed by the code running directly on the phone
 var commands=[];
+// Store current location
+var last_loc={};
 // Handle location data
 commands.geolocationSuccess=function(position) {
-    $.post('https://spy-game.herokuapp.com/games/'+document.game_id+'/update_position', position, handle_update, 'json');
+  last_loc=position;
+  map.panTo(new google.maps.LatLng(position.latitude, position.longitude);
 };
+
+function pushPosition() {
+    $.post('https://spy-game.herokuapp.com/games/'+document.game_id+'/update_position', last_loc, handle_update, 'json');
+}
+
 // Handle an error while trying to get location
 commands.geolocationError=function(error) {
     $('#content').append('<p style="background-color: red">'+error+'</p>');
@@ -49,4 +57,5 @@ function handle_update(data, textStatus, jXHR) {
 
 $(document).bind("mobileinit", function(){
 	$.mobile.ajaxEnabled = false;
+  setInterval(pushPosition, 10000);
 });

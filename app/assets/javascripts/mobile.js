@@ -15,3 +15,4 @@
 //= require postmessage
 //= require remote
 //= require jquery.mobile
+//= require map
