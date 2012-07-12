@@ -4,7 +4,7 @@ var commands=[];
 document.last_loc={};
 // Handle location data
 commands.geolocationSuccess=function(position) {
-  last_loc=position;
+  document.last_loc=position;
   map.panTo(new google.maps.LatLng(position.latitude, position.longitude));
 };
 
