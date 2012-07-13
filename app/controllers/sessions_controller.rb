@@ -1,22 +1,20 @@
 class SessionsController < ApplicationController
-  before_filter :force_mobile_format, only: :new
 
-	def new
-	end
+  def new
+  end
 
-	def create
+  def create
     user = User.find_by_email(params[:session][:email])
     if user && user.authenticate(params[:session][:password])
       sign_in user
-      redirect_to games_path
+      render json: {goto: 'games'}, callback: params[:callback]
     else
-      flash.now[:error] = 'Invalid email/password combination'
-      render 'new'
+      render json: {error: 'Invalid email/password combination'}, callback: params[:callback]
     end
   end
 
-	def destroy
+  def destroy
     sign_out
     redirect_to root_path
-	end
+  end
 end
