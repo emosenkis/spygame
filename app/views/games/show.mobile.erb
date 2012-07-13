@@ -5,10 +5,32 @@ Players in this game:
 <%= player.user.name %>, 
 <% end %>
 <br/>
-<% if @in_game %>
-<%= link_to 'Start Game', start_game_path(@game) %>
-<%= link_to 'Leave Game', leave_game_path(@game) %>
-<% else %>
-<%= link_to 'Join Game', join_game_path(@game) %>
-<% end %>
-<%= link_to 'Games', games_path %>
+
+
+<div data-role="navbar" data-iconpos="top" data-theme="a">
+    <ul>
+    	<% if @in_game %>
+        <li>
+            <a href="<%=start_game_path(@game) %>" data-theme="" data-icon="home">
+                Start Game
+            </a>
+        </li>
+        <li>
+            <a href="<%=leave_game_path(@game)%>" data-theme="" data-icon="back">
+                Leave Game
+            </a>
+        </li>
+        <% else %>
+        <li>
+            <a href="<%=join_game_path(@game) %>" data-theme="" data-icon="star">
+                Join Game
+            </a>
+        </li>
+        <% end %>
+        <li>
+            <a href="<%=games_path %>" data-theme="" data-icon="grid">
+                Games
+            </a>
+        </li>
+    </ul>
+</div>
