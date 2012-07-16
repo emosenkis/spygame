@@ -15,9 +15,9 @@ class UsersController < ApplicationController
     @user = User.new(params[:user])
     if @user.save
       sign_in @user
-      render json: {goto: 'games'}
+      render json: {goto: 'games'}, callback: params[:callback]
     else
-      render json: {error: 'Try again!'}
+      render json: {error: 'Try again!'}, callback: params[:callback]
     end
   end
 
