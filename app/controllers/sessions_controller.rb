@@ -15,6 +15,14 @@ class SessionsController < ApplicationController
 
   def destroy
     sign_out
-    redirect_to root_path
+    render json: {goto: 'signin'}, callback: params[:callback]
+  end
+
+  def check
+    if signed_in?
+      render json: {goto: 'games'}, callback: params[:callback]
+    else
+      render json: {}, callback: params[:callback]
+    end
   end
 end

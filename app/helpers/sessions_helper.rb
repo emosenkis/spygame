@@ -38,7 +38,7 @@ module SessionsHelper
   def signed_in_user
     unless signed_in?
       store_location
-      render json: {goto: 'signin'}
+      render json: {goto: 'signin'}, callback: params[:callback]
     end
   end
 end

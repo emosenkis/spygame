@@ -1,11 +1,12 @@
 SampleApp::Application.routes.draw do
 
-  resources :users
+#  resources :users
 #  resources :sessions, only: [:new, :create, :destroy]
 
   root to: 'games#index'
-
-  match 'sessions', to: 'sessions#create'
+  match 'is-signed-in', to: 'sessions#check'
+  match 'sessions', to: 'sessions#create' # Need to allow GET for JSONP
+  match 'users', to: 'users#create' # Need to allow GET for JSONP
   match 'signup', to: 'users#new'
   match 'signin', to: 'sessions#new', as: :signin
   match 'signout', to: 'sessions#destroy' #, via: :delete

@@ -28,11 +28,7 @@ class GamesController < ApplicationController
     game.state = 'pending'
     game.save
     game.players.create(user_id: @current_user.id)
-    data = {
-      id: game.id,
-      goto: 'game'
-    }
-    render json: data, callback: params[:callback]
+    render json: {goto: 'gameLobby', gameId: game.id}, callback: params[:callback]
   end
   def join
     game = GameState.find(params[:id])
@@ -40,7 +36,7 @@ class GamesController < ApplicationController
       player = game.players.new(user_id: @current_user.id)
       player.save
     end
-    show
+    render json: {goto: 'gameLobby', gameId: game.id}, callback: params[:callback]
   end
   def start
     if @game.state == 'pending'
@@ -54,7 +50,7 @@ class GamesController < ApplicationController
         player.save
       end
     end
-    render json: {goto: 'briefing'}, callback: params[:callback]
+    render json: {goto: 'briefing', gameId: @game.id}, callback: params[:callback]
   end
   def briefing
     main
