@@ -1,8 +1,9 @@
 class GamesController < ApplicationController
 
   before_filter :signed_in_user
-  before_filter :user_in_game, only: [:update_position, :briefing, :start, :leave, :main]
+  before_filter :user_in_game, only: [:update_position, :briefing, :start, :leave, :main, :outcome, :debriefing]
   before_filter :game_state_is_playing, only: [:briefing, :main, :update_position]
+  before_filter :game_state_is_over, only: [:debriefing]
   def index
     games = GameState.order('created_at DESC').paginate(page: params[:page]).collect do |game|
       {
@@ -77,6 +78,7 @@ class GamesController < ApplicationController
      detectives=@game.players.where(role: 'detective')
      data={
        id: @game.id,
+       countdown: [0, @game.date_time_of_start + @game.length - Time.now].max,
        user_id: @current_user.id,
        role: @player.role,
        detectives: detectives.collect do |player|
@@ -100,6 +102,13 @@ class GamesController < ApplicationController
      end
      render json: data, callback: params[:callback]
   end
+  def debriefing
+    render json: {
+      id: @game.id,
+      role: @player.role,
+      outcome: @game.data
+    }, callback: params[:callback]
+  end
 
   private
 
@@ -110,9 +119,21 @@ class GamesController < ApplicationController
       end
       @player=@game.players.find_by_user_id(@current_user.id)
     end
+
+    def game_state_is_over
+      if @game.state != 'over'
+        render json: {goto: 'gameLobby', gameId: @game.id}, callback: params[:callback]
+      end
+    end
+
     def game_state_is_playing
+      if @game.state == 'playing' && (Time.now - @game.date_time_of_start) >= @game.length
+        @game.state = 'over'
+        @game.data = 'escape'
+        @game.save
+      end
       if @game.state != 'playing'
-        render json: {goto: 'game'}, callback: params[:callback]
+        render json: {goto: @game.state == 'over' ? 'debriefing' : 'gameLobby', gameId: @game.id}, callback: params[:callback]
       end
     end
 end
