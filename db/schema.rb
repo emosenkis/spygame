@@ -11,41 +11,15 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120705155727) do
-
-  create_table "event_instances", :force => true do |t|
-    t.integer  "event_template_id"
-    t.integer  "user_id"
-    t.integer  "mission_instance_id"
-    t.datetime "created_at",          :null => false
-    t.datetime "updated_at",          :null => false
-  end
-
-  add_index "event_instances", ["event_template_id"], :name => "index_event_instances_on_event_template_id"
-  add_index "event_instances", ["mission_instance_id"], :name => "index_event_instances_on_mission_instance_id"
-  add_index "event_instances", ["user_id"], :name => "index_event_instances_on_user_id"
-
-  create_table "event_templates", :force => true do |t|
-    t.integer  "mission_template_id"
-    t.string   "title"
-    t.text     "description"
-    t.integer  "parent_event_id"
-    t.float    "latitude"
-    t.float    "longitude"
-    t.float    "radius"
-    t.datetime "created_at",          :null => false
-    t.datetime "updated_at",          :null => false
-  end
-
-  add_index "event_templates", ["mission_template_id"], :name => "index_event_templates_on_mission_template_id"
-  add_index "event_templates", ["parent_event_id"], :name => "index_event_templates_on_parent_event_id"
+ActiveRecord::Schema.define(:version => 20120718185609) do
 
   create_table "game_states", :force => true do |t|
     t.datetime "date_time_of_start"
     t.integer  "game_template_id"
-    t.text     "state"
+    t.string   "state"
     t.datetime "created_at",         :null => false
     t.datetime "updated_at",         :null => false
+    t.text     "data"
   end
 
   add_index "game_states", ["date_time_of_start"], :name => "index_game_states_on_date_time_of_start"
@@ -59,36 +33,9 @@ ActiveRecord::Schema.define(:version => 20120705155727) do
     t.datetime "updated_at",  :null => false
   end
 
-  create_table "microposts", :force => true do |t|
-    t.string   "content"
-    t.integer  "user_id"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-  end
-
-  add_index "microposts", ["user_id", "created_at"], :name => "index_microposts_on_user_id_and_created_at"
-
-  create_table "mission_instances", :force => true do |t|
-    t.integer  "mission_template_id"
-    t.datetime "created_at",          :null => false
-    t.datetime "updated_at",          :null => false
-  end
-
-  add_index "mission_instances", ["mission_template_id"], :name => "index_mission_instances_on_mission_template_id"
-
-  create_table "mission_templates", :force => true do |t|
-    t.string   "title"
-    t.text     "description"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
-    t.string   "image"
-  end
-
   create_table "players", :force => true do |t|
     t.integer  "game_state_id"
     t.integer  "user_id"
-    t.float    "latitude"
-    t.float    "longitude"
     t.string   "role"
     t.text     "state"
     t.datetime "created_at",    :null => false
@@ -98,24 +45,23 @@ ActiveRecord::Schema.define(:version => 20120705155727) do
   add_index "players", ["game_state_id"], :name => "index_players_on_game_state_id"
   add_index "players", ["user_id"], :name => "index_players_on_user_id"
 
-  create_table "user_missions", :force => true do |t|
-    t.integer  "user_id"
-    t.integer  "mission_instance_id"
-    t.integer  "current_event_id"
-    t.datetime "created_at",          :null => false
-    t.datetime "updated_at",          :null => false
+  create_table "position_logs", :force => true do |t|
+    t.integer  "game_state_id"
+    t.integer  "player_id"
+    t.float    "latitude"
+    t.float    "longitude"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
   end
-
-  add_index "user_missions", ["current_event_id"], :name => "index_user_missions_on_current_event_id"
-  add_index "user_missions", ["mission_instance_id"], :name => "index_user_missions_on_mission_instance_id"
-  add_index "user_missions", ["user_id"], :name => "index_user_missions_on_user_id"
 
   create_table "users", :force => true do |t|
     t.string   "name"
     t.string   "email"
+    t.string   "password_digest"
+    t.float    "latitude"
+    t.float    "longitude"
     t.datetime "created_at",                         :null => false
     t.datetime "updated_at",                         :null => false
-    t.string   "password_digest"
     t.string   "remember_token"
     t.boolean  "admin",           :default => false
   end

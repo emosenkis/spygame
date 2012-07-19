@@ -68,9 +68,7 @@ class GamesController < ApplicationController
   end
   def update_position
     if !!params[:latitude] && !!params[:longitude]
-      @player.latitude=params[:latitude]
-      @player.longitude=params[:longitude]
-      @player.save
+      @player.update_position(params[:latitude], params[:longitude])
     end
     main
   end
@@ -82,19 +80,21 @@ class GamesController < ApplicationController
        user_id: @current_user.id,
        role: @player.role,
        detectives: detectives.collect do |player|
+         position=player.latest_position
          {
            user_id: player.user_id,
-           latitude: player.latitude,
-           longitude: player.longitude,
+           latitude: position.latitude,
+           longitude: position.longitude,
            name: player.user.name
          }
        end
      }
      if spy
+       position=spy.latest_position(@game.spy_update_time(60))
        data[:spy]={
          user_id: spy.user_id,
-         latitude: spy.latitude,
-         longitude: spy.longitude,
+         latitude: position.latitude,
+         longitude: position.longitude,
          name: spy.user.name
        }
      end
