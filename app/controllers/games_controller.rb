@@ -4,7 +4,7 @@ class GamesController < ApplicationController
   before_filter :user_in_game, only: [:update_position, :briefing, :start, :leave, :main]
   before_filter :game_state_is_playing, only: [:briefing, :main, :update_position]
   def index
-    games = GameState.paginate(page: params[:page]).collect do |game|
+    games = GameState.order('created_at DESC').paginate(page: params[:page]).collect do |game|
       {
         id: game.id,
         state: game.state,
