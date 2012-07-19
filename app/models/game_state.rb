@@ -22,6 +22,6 @@ class GameState < ActiveRecord::Base
     self.date_time_of_start + interval * ((Time.now - self.date_time_of_start) / interval).floor
   end
   def length
-    10
+    240
   end
 end
