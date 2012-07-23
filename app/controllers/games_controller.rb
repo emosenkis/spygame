@@ -1,4 +1,5 @@
 class GamesController < ApplicationController
+  include GameHelper
 
   before_filter :signed_in_user
   before_filter :user_in_game, only: [:update_position, :briefing, :start, :leave, :main, :outcome, :debriefing]
@@ -44,12 +45,7 @@ class GamesController < ApplicationController
       @game.date_time_of_start = Time.now
       @game.state = 'playing'
       @game.save
-      players=@game.players
-      spy=players[Random.rand(players.count)]
-      players.each do |player|
-        player.role = player.id == spy.id ? 'spy' : 'detective'
-        player.save
-      end
+      game_start
     end
     render json: {goto: 'briefing', gameId: @game.id}, callback: params[:callback]
   end
@@ -74,32 +70,12 @@ class GamesController < ApplicationController
     main
   end
   def main
-     spy=@game.players.find_by_role('spy')
-     detectives=@game.players.where(role: 'detective')
      data={
        id: @game.id,
-       countdown: [0, @game.date_time_of_start + @game.length - Time.now].max,
        user_id: @current_user.id,
-       role: @player.role,
-       detectives: detectives.collect do |player|
-         position=player.latest_position
-         {
-           user_id: player.user_id,
-           latitude: position.latitude,
-           longitude: position.longitude,
-           name: player.user.name
-         }
-       end
+       role: @player.role
      }
-     if spy
-       position=spy.latest_position(@game.spy_update_time(60))
-       data[:spy]={
-         user_id: spy.user_id,
-         latitude: position.latitude,
-         longitude: position.longitude,
-         name: spy.user.name
-       }
-     end
+     data.merge! game_data
      render json: data, callback: params[:callback]
   end
   def debriefing
