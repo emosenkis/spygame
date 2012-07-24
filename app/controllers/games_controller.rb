@@ -88,7 +88,8 @@ class GamesController < ApplicationController
            user_id: player.user_id,
            latitude: position.latitude,
            longitude: position.longitude,
-           name: player.user.name
+           name: player.user.name,
+           dist_to_spy: distance_to(player, spy)
          }
        end
      }
@@ -115,14 +116,26 @@ class GamesController < ApplicationController
   private
     # Returns distance between two players in feet
     def distance_to (player1, player2)
-      lat1 = player1.latitude
-      lon1 = player1.longitude
-      lat2 = player2.latitude
-      lon2 = player2.longitude
-      GeoPoint.coord_mode = :lng_lat
-      p1, p2 = [[lon1, lat1].geo_point, [lon2, lat2].geo_point]
-      dist = GeoDistance::Haversine.geo_distance( p1, p2).to_miles
-      dist.feet
+      if(player1.latest_position.latitude.nil? or player2.latest_position.latitude.nil?) then
+        return 1000
+      else
+        position1=player1.latest_position
+        position2=player2.latest_position
+        lat1 = position1.latitude
+        lon1 = position1.longitude
+        lat2 = position2.latitude
+        lon2 = position2.longitude
+        GeoPoint.coord_mode = :lng_lat
+
+        puts 'flag6'
+        #p1, p2 = [[lon1, lat1].geo_point, [lon2, lat2].geo_point]
+        #dist = GeoDistance::Haversine.geo_distance(p1, p2)
+        dist = GeoDistance::Haversine.geo_distance(lat1, lon1, lat2, lon2).to_miles
+
+        #dist = 100
+        dist.feet
+      end
+
     end
 
     def user_in_game
@@ -152,6 +165,7 @@ class GamesController < ApplicationController
           @game.state = 'over'
           @game.data = 'caught'
           @game.save
+        end
       end
 
 
