@@ -87,6 +87,7 @@ class GamesController < ApplicationController
            latitude: position.latitude,
            longitude: position.longitude,
            name: player.user.name
+           dist_to_spy: distance_to(player, spy)
          }
        end
      }
@@ -104,12 +105,16 @@ class GamesController < ApplicationController
 
 
   private
-    def distance (lat1, lon1, lat2, lon2)
-      r = 6371 
-      d = Math.acos(Math.sin(lat1)*Math.sin(lat2) + 
-                        Math.cos(lat1)*Math.cos(lat2) *
-                        Math.cos(lon2-lon1)) * R
-      return d
+    # Returns distance between two players in feet
+    def distance_to (player1, player2)
+      lat1 = player1.latitude
+      lon1 = player1.longitude
+      lat2 = player2.latitude
+      lon2 = player2.longitude
+      GeoPoint.coord_mode = :lng_lat
+      p1, p2 = [[lon1, lat1].geo_point, [lon2, lat2].geo_point]
+      dist = GeoDistance::Haversine.geo_distance( p1, p2).to_miles
+      dist.feet
     end
 
     def user_in_game

@@ -10,6 +10,7 @@ gem 'will_paginate', '3.0.3'
 gem 'bootstrap-will_paginate', '0.0.6'
 gem 'mobile_fu-rails3', '1.0.6'
 gem 'jquery_mobile_rails', '1.1.0'
+gem 'geo-distance'
 
 group :development, :test do
   gem 'sqlite3', '1.3.5'
