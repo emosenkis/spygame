@@ -89,7 +89,6 @@ class GamesController < ApplicationController
            latitude: position.latitude,
            longitude: position.longitude,
            name: player.user.name
-           dist_to_spy: distance_to(player, spy)
          }
        end
      }
@@ -145,7 +144,17 @@ class GamesController < ApplicationController
         @game.state = 'over'
         @game.data = 'escape'
         @game.save
+      else
+        #Test spy's proximity to all detectives (20 foot range)
+        spy=@game.players.find_by_role('spy')
+        detectives=@game.players.where(role: 'detective')
+        if detectives.detect {|detective| distance_to(detective, spy) < 20} then
+          @game.state = 'over'
+          @game.data = 'caught'
+          @game.save
       end
+
+
       if @game.state != 'playing'
         render json: {goto: @game.state == 'over' ? 'debriefing' : 'gameLobby', gameId: @game.id}, callback: params[:callback]
       end
