@@ -89,7 +89,7 @@ class GamesController < ApplicationController
            latitude: position.latitude,
            longitude: position.longitude,
            name: player.user.name,
-           dist_to_spy: distance_to(player, spy)
+           dist_to_spy: distance_to(player, spy) > -1  ? distance_to(player, spy) : 'unknown'
          }
        end
      }
@@ -117,7 +117,7 @@ class GamesController < ApplicationController
     # Returns distance between two players in feet
     def distance_to (player1, player2)
       if(player1.latest_position.latitude.nil? or player2.latest_position.latitude.nil?) then
-        return 1000
+        return -1
       else
         position1=player1.latest_position
         position2=player2.latest_position
@@ -126,11 +126,9 @@ class GamesController < ApplicationController
         lat2 = position2.latitude
         lon2 = position2.longitude
         GeoPoint.coord_mode = :lng_lat
-
-        puts 'flag6'
-        #p1, p2 = [[lon1, lat1].geo_point, [lon2, lat2].geo_point]
-        #dist = GeoDistance::Haversine.geo_distance(p1, p2)
-        dist = GeoDistance::Haversine.geo_distance(lat1, lon1, lat2, lon2).to_miles
+        p1, p2 = [[lon1, lat1].geo_point, [lon2, lat2].geo_point]
+        dist = GeoDistance::Haversine.geo_distance(p1, p2).to_miles
+        #dist = GeoDistance::Haversine.geo_distance(lat1, lon1, lat2, lon2).to_miles
 
         #dist = 100
         dist.feet
@@ -161,7 +159,8 @@ class GamesController < ApplicationController
         #Test spy's proximity to all detectives (20 foot range)
         spy=@game.players.find_by_role('spy')
         detectives=@game.players.where(role: 'detective')
-        if detectives.detect {|detective| distance_to(detective, spy) < 20} then
+        if detectives.detect {|detective| distance_to(detective, spy) < 20 and 
+            distance_to(detective, spy) > -1} then
           @game.state = 'over'
           @game.data = 'caught'
           @game.save
