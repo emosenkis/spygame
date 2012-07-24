@@ -71,15 +71,7 @@ class GamesController < ApplicationController
     if !!params[:latitude] && !!params[:longitude]
       @player.update_position(params[:latitude], params[:longitude])
     end
-    #check proximity
-#    function distance (lat1, lon1, lat2, lon2)
-#{
-#  var R = 6371; // km
-#  var d = Math.acos(Math.sin(lat1)*Math.sin(lat2) + 
-#                    Math.cos(lat1)*Math.cos(lat2) *
-#                    Math.cos(lon2-lon1)) * R;
-#  return d;
-#}
+  
     main if @game.state == 'playing'
   end
   def main
@@ -122,7 +114,7 @@ class GamesController < ApplicationController
 
   private
     def distance (lat1, lon1, lat2, lon2)
-      R = 6371; // km
+      r = 6371 
       d = Math.acos(Math.sin(lat1)*Math.sin(lat2) + 
                         Math.cos(lat1)*Math.cos(lat2) *
                         Math.cos(lon2-lon1)) * R
