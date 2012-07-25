@@ -89,7 +89,7 @@ class GamesController < ApplicationController
            latitude: position.latitude,
            longitude: position.longitude,
            name: player.user.name,
-           dist_to_spy: distance_to(player, spy) > -1  ? distance_to(player, spy) : 'unknown'
+           #dist_to_spy: distance_to(player, spy) > -1  ? distance_to(player, spy) : 'unknown'
          }
        end
      }
@@ -157,6 +157,7 @@ class GamesController < ApplicationController
         @game.save
       else
         #Test spy's proximity to all detectives (20 foot range)
+        #-1 distance = undefined location
         spy=@game.players.find_by_role('spy')
         detectives=@game.players.where(role: 'detective')
         if detectives.detect {|detective| distance_to(detective, spy) < 20 and 
