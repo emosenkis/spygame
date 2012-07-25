@@ -57,12 +57,10 @@ class GamesController < ApplicationController
     main
   end
   def leave
-    game = GameState.find(params[:id])
-    player = game.players.find_by_user_id(@current_user.id)
-    if player
-      player.destroy
-      if game.players.empty?
-        game.destroy
+    if @game.state != 'over'
+      @player.destroy
+      if @game.players.empty?
+        @game.destroy
       end
     end
     render json: {goto: 'games'}, callback: params[:callback]
