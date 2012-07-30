@@ -10,6 +10,7 @@ SampleApp::Application.routes.draw do
   match 'signup', to: 'users#new'
   match 'signin', to: 'sessions#new', as: :signin
   match 'signout', to: 'sessions#destroy' #, via: :delete
+  match 'history', to: 'games#history', as: :history
 
   match '/about',    to: 'static_pages#home'
   match '/help',    to: 'static_pages#help'

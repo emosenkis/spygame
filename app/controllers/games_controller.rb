@@ -1,11 +1,22 @@
 class GamesController < ApplicationController
 
   before_filter :signed_in_user
+  before_filter :game_exists, except: [:index, :create, :history]
   before_filter :user_in_game, only: [:update_position, :briefing, :start, :leave, :main, :outcome, :debriefing]
   before_filter :game_state_is_playing, only: [:briefing, :main, :update_position]
   before_filter :game_state_is_over, only: [:debriefing]
   def index
-    games = GameState.order('created_at DESC').paginate(page: params[:page]).collect do |game|
+    games = GameState.where('state = "pending" OR (state != "over" AND EXISTS (SELECT * FROM players WHERE players.user_id = ? AND players.game_state_id = game_states.id))', current_user.id).order('created_at DESC').collect do |game|
+      {
+        id: game.id,
+        state: game.state,
+        players: game.players.collect {|p| p.user.name}
+      }
+    end
+    render json: games, callback: params[:callback]
+  end
+  def history
+    games = GameState.where('EXISTS (SELECT * FROM players WHERE players.user_id = ? AND players.game_state_id = game_states.id)', current_user.id).order('created_at DESC').collect do |game|
       {
         id: game.id,
         state: game.state,
@@ -15,29 +26,27 @@ class GamesController < ApplicationController
     render json: games, callback: params[:callback]
   end
   def show
-    game = GameState.find(params[:id])
     data = {
-      id: game.id,
-      state: game.state,
-      players: game.players.collect {|p| p.user.name},
-      in_game: !!game.players.find_by_user_id(@current_user.id)
+      id: @game.id,
+      state: @game.state,
+      players: @game.players.collect {|p| p.user.name},
+      in_game: !!@game.players.find_by_user_id(@current_user.id)
     }
     render json: data, callback: params[:callback]
   end
   def create
-    game = GameState.new()
-    game.state = 'pending'
-    game.save
-    game.players.create(user_id: @current_user.id)
-    render json: {goto: 'gameLobby', gameId: game.id}, callback: params[:callback]
+    @game = GameState.new()
+    @game.state = 'pending'
+    @game.save
+    @game.players.create(user_id: @current_user.id)
+    render json: {goto: 'gameLobby', gameId: @game.id}, callback: params[:callback]
   end
   def join
-    game = GameState.find(params[:id])
-    if game.state == 'pending' && !game.players.find_by_user_id(@current_user.id)
-      player = game.players.new(user_id: @current_user.id)
+    if @game.state == 'pending' && !@game.players.find_by_user_id(@current_user.id)
+      player = @game.players.new(user_id: @current_user.id)
       player.save
     end
-    render json: {goto: 'gameLobby', gameId: game.id}, callback: params[:callback]
+    render json: {goto: 'gameLobby', gameId: @game.id}, callback: params[:callback]
   end
   def start
     if @game.state == 'pending'
@@ -134,12 +143,19 @@ class GamesController < ApplicationController
 
     end
 
+    def game_exists
+      begin
+        @game = GameState.find(params[:id])
+      rescue ActiveRecord::RecordNotFound
+        render json: {goto: 'games', alert: 'The game you are looking for has been deleted.'}, callback: params[:callback]
+      end
+    end
+
     def user_in_game
-      @game = current_user.game_states.find(params[:id])
-      if @game.nil?
+      @player=@game.players.find_by_user_id(@current_user.id)
+      if @player.nil?
         render json: {goto: 'games'}, callback: params[:callback]
       end
-      @player=@game.players.find_by_user_id(@current_user.id)
     end
 
     def game_state_is_over
