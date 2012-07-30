@@ -6,7 +6,7 @@ class GamesController < ApplicationController
   before_filter :game_state_is_playing, only: [:briefing, :main, :update_position]
   before_filter :game_state_is_over, only: [:debriefing]
   def index
-    games = GameState.where('state = "pending" OR (state != "over" AND EXISTS (SELECT * FROM players WHERE players.user_id = ? AND players.game_state_id = game_states.id))', current_user.id).order('created_at DESC').collect do |game|
+    games = GameState.where("state = 'pending' OR (state != 'over' AND EXISTS (SELECT * FROM players WHERE players.user_id = ? AND players.game_state_id = game_states.id))", current_user.id).order('created_at DESC').collect do |game|
       {
         id: game.id,
         state: game.state,
