@@ -9,7 +9,7 @@ class SessionsController < ApplicationController
       sign_in user
       render json: {goto: 'games'}, callback: params[:callback]
     else
-      render json: {error: 'Invalid email/password combination'}, callback: params[:callback]
+      render json: {alert: 'Invalid email/password combination'}, callback: params[:callback]
     end
   end
 

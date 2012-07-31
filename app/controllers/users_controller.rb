@@ -17,7 +17,7 @@ class UsersController < ApplicationController
       sign_in @user
       render json: {goto: 'games'}, callback: params[:callback]
     else
-      render json: {error: 'Try again!'}, callback: params[:callback]
+      render json: {alert: @user.errors.full_messages.join("\n")}, callback: params[:callback]
     end
   end
 
